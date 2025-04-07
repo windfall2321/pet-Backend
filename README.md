@@ -1,5 +1,8 @@
 # 宠物网站——后端
+
 jdk:oracle jdk23
+IDE：IntelliJ IDEA
+database：MySQL
 
 MySQL账号密码自行在src/main/resources/application.properties的username和password中修改
 
