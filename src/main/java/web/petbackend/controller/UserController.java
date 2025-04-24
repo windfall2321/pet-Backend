@@ -1,9 +1,12 @@
 package web.petbackend.controller;
 
+import web.petbackend.entity.ApiResponse;
 import web.petbackend.entity.User;
 import web.petbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import web.petbackend.config.exception.BusinessException;
+import web.petbackend.config.exception.ErrorCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,44 +19,34 @@ public class UserController {
     private UserService userService;
     
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody User user) {
+    public ApiResponse<User> register(@RequestBody User user) {
         User registeredUser = userService.register(user);
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", 200);
-        response.put("message", "注册成功");
-        response.put("data", registeredUser);
-        return response;
+        return ApiResponse.success("注册成功", registeredUser);
     }
     
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestParam String username, @RequestParam String password) {
-        String token = userService.login(username, password);
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", 200);
-        response.put("message", "登录成功");
-        response.put("token", token);
-        return response;
+    public ApiResponse<String> login(@RequestParam String username, @RequestParam String password) {
+        try {
+            String token = userService.login(username, password);
+            return ApiResponse.success("登录成功", token);
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.PASSWORD_ERROR.getCode(), "用户名或密码错误");
+        }
     }
     
     @GetMapping("/info")
-    public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String token) {
+    public ApiResponse<User> getUserInfo(@RequestHeader("Authorization") String token) {
         // 这里需要解析token获取用户ID
         // 为了简化示例，假设token就是用户ID
         Integer userId = Integer.parseInt(token);
         User user = userService.getUserInfo(userId);
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", 200);
-        response.put("data", user);
-        return response;
+        return ApiResponse.success("获取用户信息成功", user);
     }
 
     @PostMapping("/logout")
-    public Map<String, Object> logout(@RequestHeader("Authorization") String token) {
+    public ApiResponse<String> logout(@RequestHeader("Authorization") String token) {
         Integer userId = Integer.parseInt(token);
         userService.logout(userId);
-        Map<String, Object> response = new HashMap<>();
-        response.put("code", 200);
-        response.put("message", "登出成功");
-        return response;
+        return ApiResponse.success("登出成功");
     }
 } 
