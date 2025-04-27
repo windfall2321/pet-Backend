@@ -4,16 +4,69 @@
 
 <mapper namespace="web.petbackend.mapper.PetEncyMapper">
 
+    <!-- 显式定义字段映射 -->
+    <resultMap id="petEncyResultMap" type="web.petbackend.entity.PetEncyclopedia">
+        <result property="pet_ency_id" column="pet_ency_id"/>
+        <result property="variety_name" column="variety_name"/>
+        <result property="category" column="category"/>
+        <result property="bodily_form" column="bodily_form"/>
+        <result property="height" column="height"/>
+        <result property="weight" column="weight"/>
+        <result property="lifetime" column="lifetime"/>
+        <result property="feature_tail" column="feature_tail"/>
+        <result property="feature_ear" column="feature_ear"/>
+        <result property="feature_eye" column="feature_eye"/>
+        <result property="coat_color" column="coat_color"/>
+        <result property="coat_length" column="coat_length"/>
+        <result property="introduction" column="introduction"/>
+        <result property="feeding_matters" column="feeding_matters"/>
+        <result property="image" column="image"/>
+    </resultMap>
     <!-- 查询所有 -->
-    <select id="findAllPetEncy" resultType="web.petbackend.entity.PetEncyclopedia">
+    <select id="getAllPetEncy" resultMap="petEncyResultMap">
         SELECT * FROM pet_encyclopedia
     </select>
 
     <!-- 分页查询 -->
-    <select id="findPetEncyByPage" resultType="web.petbackend.entity.PetEncyclopedia">
+    <select id="getPetEncyByPage" resultMap="petEncyResultMap">
         SELECT * FROM pet_encyclopedia
                           LIMIT #{size} OFFSET #{offset}
     </select>
 
+    <!-- 增加一条宠物百科数据 -->
+    <insert id="addPetEncy" parameterType="web.petbackend.entity.PetEncyclopedia" useGeneratedKeys="true" keyProperty="petEncyId">
+        INSERT INTO pet_encyclopedia (variety_name, category, bodily_form, height, weight, lifetime, feature_tail, feature_ear, feature_eye, coat_color, coat_length, introduction, feeding_matters, image)
+        VALUES (#{varietyName}, #{category}, #{bodilyForm}, #{height}, #{weight}, #{lifetime}, #{featureTail}, #{featureEar}, #{featureEye}, #{coatColor}, #{coatLength}, #{introduction}, #{feedingMatters}, #{image})
+    </insert>
+
+    <!-- 删除一条宠物百科数据 -->
+    <delete id="deletePetEncy" parameterType="int">
+        DELETE FROM pet_encyclopedia WHERE pet_ency_id = #{petEncyId}
+    </delete>
+
+    <!-- 更新一条宠物百科数据 -->
+    <update id="updatePetEncy" parameterType="web.petbackend.entity.PetEncyclopedia">
+        UPDATE pet_encyclopedia
+        SET variety_name = #{varietyName},
+            category = #{category},
+            bodily_form = #{bodilyForm},
+            height = #{height},
+            weight = #{weight},
+            lifetime = #{lifetime},
+            feature_tail = #{featureTail},
+            feature_ear = #{featureEar},
+            feature_eye = #{featureEye},
+            coat_color = #{coatColor},
+            coat_length = #{coatLength},
+            introduction = #{introduction},
+            feeding_matters = #{feedingMatters},
+            image = #{image}
+        WHERE pet_ency_id = #{petEncyId}
+    </update>
+
+    <!-- 查询总条数 -->
+    <select id="countItems" resultType="Integer">
+        SELECT COUNT(*) FROM pet_encyclopedia
+    </select>
 
 </mapper>
