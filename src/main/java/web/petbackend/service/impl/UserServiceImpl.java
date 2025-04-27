@@ -4,7 +4,6 @@ import web.petbackend.entity.User;
 import web.petbackend.mapper.UserMapper;
 import web.petbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +17,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     
     @Override
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
         }
         
         // 加密密码
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //user.setPassword(passwordEncoder.encode(user.getPassword()));
         
         // 保存用户
         userMapper.insert(user);
@@ -40,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String username, String password) {
         User user = userMapper.findByUsername(username);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
+        if (user == null || !password.equals(user.getPassword())) {
             throw new RuntimeException("用户名或密码错误");
         }
         
