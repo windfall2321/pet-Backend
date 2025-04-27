@@ -6,7 +6,7 @@ import web.petbackend.config.exception.BusinessException;
 import web.petbackend.entity.ApiResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import jakarta.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
