@@ -4,13 +4,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class AdoptionListing {
+public class AdoptionApplication {
+    private Integer adoptionApplicationId;
     private Integer adoptionId;
-    private Integer petId;
-    private Integer listedBy;
-    private String description;
+    private Integer applicantId;
+    private String reason;
     private String status;
     private LocalDateTime listedAt;
     private LocalDateTime adoptedAt;
-    private String image;
+    private Integer reviewedBy;
 }

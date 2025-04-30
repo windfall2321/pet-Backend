@@ -15,8 +15,8 @@
 
     <!-- Insert new AdoptionListing -->
     <insert id="insert" parameterType="web.petbackend.entity.AdoptionListing" useGeneratedKeys="true" keyProperty="adoptionId">
-        INSERT INTO adoption_listing (pet_id, listed_by, description, status, listed_at, adopted_at)
-        VALUES (#{petId}, #{listedBy}, #{description}, #{status}, #{listedAt}, #{adoptedAt})
+        INSERT INTO adoption_listing (pet_id, listed_by, description, status, listed_at, adopted_at,image)
+        VALUES (#{petId}, #{listedBy}, #{description}, #{status}, #{listedAt}, #{adoptedAt},#{image})
     </insert>
 
     <!-- Select an AdoptionListing by ID -->
@@ -32,12 +32,15 @@
     <!-- Update an AdoptionListing -->
     <update id="update" parameterType="web.petbackend.entity.AdoptionListing">
         UPDATE adoption_listing
-        SET pet_id = #{petId},
-            listed_by = #{listedBy},
-            description = #{description},
-            status = #{status},
-            listed_at = #{listedAt},
-            adopted_at = #{adoptedAt}
+        <set>
+            <if test="petId != null">pet_id = #{petId},</if>
+            <if test="listedBy != null">listed_by = #{listedBy},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="listedAt != null">listed_at = #{listedAt},</if>
+            <if test="adoptedAt != null">adopted_at = #{adoptedAt},</if>
+            <if test="image != null">image = #{image},</if>
+        </set>
         WHERE adoption_id = #{adoptionId}
     </update>
 

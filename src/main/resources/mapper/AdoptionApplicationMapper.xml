@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="web.petbackend.mapper.AdoptionApplicationMapper">
+
+    <resultMap id="AdoptionApplicationResultMap" type="web.petbackend.entity.AdoptionApplication">
+        <id property="adoptionApplicationId" column="adoption_application_id" />
+        <result property="adoptionId" column="adoption_id"/>
+        <result property="applicantId" column="applicant_id"/>
+        <result property="reason" column="reason"/>
+        <result property="status" column="status"/>
+        <result property="listedAt" column="listed_at"/>
+        <result property="adoptedAt" column="adopted_at"/>
+        <result property="reviewedBy" column="reviewed_by"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="web.petbackend.entity.AdoptionApplication" useGeneratedKeys="true" keyProperty="adoptionApplicationId">
+        INSERT INTO adoption_application (adoption_id, applicant_id, reason, status, listed_at)
+        VALUES (#{adoptionId}, #{applicantId}, #{reason}, #{status}, #{listedAt})
+    </insert>
+
+    <select id="selectById" resultMap="AdoptionApplicationResultMap">
+        SELECT * FROM adoption_application WHERE adoption_application_id = #{applicationId}
+    </select>
+
+    <select id="selectByAdoptionId" resultMap="AdoptionApplicationResultMap">
+        SELECT * FROM adoption_application WHERE adoption_id = #{adoptionId}
+    </select>
+
+    <select id="selectAll" resultMap="AdoptionApplicationResultMap">
+        SELECT * FROM adoption_application
+    </select>
+
+    <update id="update" parameterType="web.petbackend.entity.AdoptionApplication">
+        UPDATE adoption_application
+        <set>
+            <if test="adoptionId != null">adoption_id = #{adoptionId},</if>
+            <if test="applicantId != null">applicant_id = #{applicantId},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="listedAt != null">listed_at = #{listedAt},</if>
+            <if test="adoptedAt != null">adopted_at = #{adoptedAt},</if>
+            <if test="reviewedBy != null">reviewed_by = #{reviewedBy},</if>
+        </set>
+        WHERE adoption_application_id = #{adoptionApplicationId}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM adoption_application WHERE adoption_application_id = #{applicationId}
+    </delete>
+
+</mapper>
