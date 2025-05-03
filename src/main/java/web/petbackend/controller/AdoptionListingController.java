@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
+@CrossOrigin(origins = "http://localhost:3100", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/adoption-listings")
 public class AdoptionListingController {

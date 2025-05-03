@@ -9,7 +9,7 @@ import web.petbackend.service.AdoptionApplicationService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
+@CrossOrigin(origins = "http://localhost:3100", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/adoption-applications")
 public class AdoptionApplicationController {
