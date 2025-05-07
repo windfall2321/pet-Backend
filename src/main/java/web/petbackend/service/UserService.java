@@ -7,4 +7,5 @@ public interface UserService {
     String login(String username, String password);
     User getUserInfo(Integer userId);
     void logout(Integer userId);
+    User updateUserInfo(Integer userId, User user);
 } 
