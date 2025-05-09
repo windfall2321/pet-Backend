@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.petbackend.config.exception.BusinessException;
 import web.petbackend.config.exception.ErrorCode;
+import web.petbackend.dto.UserLoginRequest;
 
 @SecurityRequirement(name = "Bearer Token")
 @RestController
@@ -23,11 +24,11 @@ public class UserController {
         User registeredUser = userService.register(user);
         return ApiResponse.success("注册成功", registeredUser);
     }
-    
+
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestParam String username, @RequestParam String password) {
+    public ApiResponse<String> login(@RequestBody UserLoginRequest request) {
         try {
-            String token = userService.login(username, password);
+            String token = userService.login(request.getUsername(), request.getPassword());
             return ApiResponse.success("登录成功", token);
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR.getCode(), "用户名或密码错误");
