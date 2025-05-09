@@ -43,4 +43,9 @@ public class AdoptionApplicationServiceImpl implements AdoptionApplicationServic
     public int deleteApplication(Integer id) {
         return applicationMapper.deleteById(id);
     }
+
+    @Override
+    public void deleteApplicationsByAdoptionId(Integer adoptionId) {
+        applicationMapper.deleteByAdoptionId(adoptionId);
+    }
 }

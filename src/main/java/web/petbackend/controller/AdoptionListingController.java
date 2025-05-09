@@ -3,6 +3,7 @@ package web.petbackend.controller;
 import org.springframework.format.annotation.DateTimeFormat;
 import web.petbackend.entity.AdoptionListing;
 import web.petbackend.entity.ApiResponse;
+import web.petbackend.service.AdoptionApplicationService;
 import web.petbackend.service.AdoptionListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ public class AdoptionListingController {
 
     @Autowired
     private AdoptionListingService adoptionListingService;
+    @Autowired
+    private AdoptionApplicationService adoptionApplicationService;
 
     // 发布领养信息
     @PostMapping("/add")
@@ -102,6 +105,7 @@ public class AdoptionListingController {
             if (listing == null) {
                 return ApiResponse.error(404, "未找到该领养信息，无法删除");
             }
+            adoptionApplicationService.deleteApplicationsByAdoptionId(id);
             adoptionListingService.deleteAdoption(id);
             return ApiResponse.success("删除成功");
         } catch (Exception e) {
