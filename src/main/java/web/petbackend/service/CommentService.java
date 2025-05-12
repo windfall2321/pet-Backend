@@ -1,5 +1,6 @@
 package web.petbackend.service;
 
+import org.apache.ibatis.annotations.Param;
 import web.petbackend.entity.Comment;
 import java.util.List;
 

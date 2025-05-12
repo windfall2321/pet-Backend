@@ -18,15 +18,19 @@
 
     <update id="updateComment" parameterType="web.petbackend.entity.Comment">
         UPDATE comment
-        SET user_id = #{userId},
-            topic_id = #{topicId},
-            content = #{content},
+        SET content = #{content},
             timestamp = #{timestamp}
         WHERE comment_id = #{commentId}
     </update>
 
+
+    <!-- 获取与评论关联的图片 ID -->
+    <select id="selectImageIdsByCommentId" resultType="Integer">
+        SELECT image_id FROM image WHERE comment_id = #{id}
+    </select>
+
     <delete id="deleteComment" parameterType="int">
-        DELETE FROM comment WHERE comment_id = #{id}
+        DELETE FROM comment WHERE comment_id = #{id};
     </delete>
 
 </mapper>

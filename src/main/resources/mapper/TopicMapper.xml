@@ -30,12 +30,21 @@
     <update id="updateTopic">
         UPDATE topic
         SET title = #{title},
-            user_id = #{userId},
             content = #{content},
             tags = #{tags},
             timestamp = #{timestamp}
         WHERE topic_id = #{topicId}
     </update>
+
+    <select id="selectImageIdsByTopicId" resultType="Integer">
+        SELECT image_id FROM image WHERE topic_id = #{id}
+    </select>
+
+
+    <select id="selectCommentIdsByTopicId" resultType="Integer">
+        SELECT comment_id FROM comment WHERE topic_id = #{id};
+    </select>
+
 
     <delete id="deleteTopic">
         DELETE FROM topic WHERE topic_id = #{id}

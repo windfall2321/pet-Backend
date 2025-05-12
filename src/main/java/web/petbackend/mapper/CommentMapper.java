@@ -12,4 +12,5 @@ public interface CommentMapper {
     void insertComment(Comment comment);
     void updateComment(Comment comment);
     void deleteComment(@Param("id") Integer id);
+    List<Integer> selectImageIdsByCommentId(@Param("id") Integer id);
 }

@@ -12,4 +12,7 @@ public interface TopicMapper {
     void insertTopic(Topic topic);
     void updateTopic(Topic topic);
     void deleteTopic(@Param("id") Integer id);
+
+    List<Integer> selectCommentIdsByTopicId(@Param("id") Integer id);
+    List<Integer> selectImageIdsByTopicId(@Param("id") Integer id);
 }
