@@ -13,5 +13,4 @@ public interface AdoptionApplicationMapper {
     List<AdoptionApplication> selectAll();
     int update(AdoptionApplication application);
     int deleteById(Integer applicationId);
-    void deleteByAdoptionId(Integer adoptionId);
 }

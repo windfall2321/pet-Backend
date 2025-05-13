@@ -48,7 +48,5 @@
     <delete id="deleteById" parameterType="int">
         DELETE FROM adoption_application WHERE adoption_application_id = #{applicationId}
     </delete>
-    <delete id="deleteByAdoptionId" parameterType="int">
-        DELETE FROM adoption_application WHERE adoption_id = #{adoptionId}
-    </delete>
+
 </mapper>

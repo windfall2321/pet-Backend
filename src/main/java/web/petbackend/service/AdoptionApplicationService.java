@@ -10,6 +10,4 @@ public interface AdoptionApplicationService {
     List<AdoptionApplication> getAllApplications();
     int updateApplication(AdoptionApplication application);
     int deleteApplication(Integer id);
-    void deleteApplicationsByAdoptionId(Integer adoptionId);
-
 }
