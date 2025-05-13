@@ -1,6 +1,7 @@
 package web.petbackend.controller;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import web.petbackend.dto.AdoptionListingDTO;
 import web.petbackend.entity.AdoptionListing;
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.service.AdoptionListingService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 @CrossOrigin(origins = "http://localhost:3100", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/adoption-listings")
@@ -51,10 +54,15 @@ public class AdoptionListingController {
                 if (adoptionListing == null) {
                     return ApiResponse.error(404, "未找到对应的领养信息");
                 }
-                return ApiResponse.success("查询成功", adoptionListing);
+                AdoptionListingDTO dto = adoptionListingService.convertToDTO(adoptionListing);
+
+                return ApiResponse.success("查询成功", dto);
             } else {
                 List<AdoptionListing> adoptionListings = adoptionListingService.getAllAdoptions();
-                return ApiResponse.success("查询全部成功", adoptionListings);
+                List<AdoptionListingDTO> dtoList = adoptionListings.stream()
+                        .map(adoptionListingService::convertToDTO)
+                        .collect(Collectors.toList());
+                return ApiResponse.success("查询全部成功", dtoList);
             }
         } catch (Exception e) {
             return ApiResponse.error(500, "查询失败: " + e.getMessage());
