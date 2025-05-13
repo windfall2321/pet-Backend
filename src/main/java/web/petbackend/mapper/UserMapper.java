@@ -11,4 +11,5 @@ public interface UserMapper {
     void insert(User user);
     User findById(@Param("userId") Integer userId);
     void updateLoginStatus(@Param("userId") Integer userId, @Param("isOn") Integer isOn);
+    void updateUserInfo(@Param("userId") Integer userId, @Param("user") User user);
 } 

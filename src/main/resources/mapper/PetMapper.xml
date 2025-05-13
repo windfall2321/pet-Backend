@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="web.petbackend.mapper.PetMapper">
+    <resultMap id="BaseResultMap" type="web.petbackend.entity.Pet">
+        <id column="pet_id" property="petId"/>
+        <result column="name" property="Name"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="breed" property="Breed"/>
+        <result column="gender" property="Gender"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="web.petbackend.entity.Pet" useGeneratedKeys="true" keyProperty="petId">
+        INSERT INTO pet (name, owner_id, breed, gender)
+        VALUES (#{Name}, #{ownerId}, #{Breed}, #{Gender})
+    </insert>
+
+    <update id="update" parameterType="web.petbackend.entity.Pet">
+        UPDATE pet
+        SET name = #{Name},
+            owner_id = #{ownerId},
+            breed = #{Breed},
+            gender = #{Gender}
+        WHERE pet_id = #{petId}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM pet WHERE pet_id = #{petId}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM pet
+    </select>
+
+    <!-- 新增的通过ownerId查询宠物列表 -->
+    <select id="selectByOwnerId" resultMap="BaseResultMap">
+        SELECT * FROM pet WHERE owner_id = #{ownerId}
+    </select>
+
+    <!-- 新增的通过ownerId删除宠物 -->
+    <delete id="deleteByOwnerId">
+        DELETE FROM pet WHERE owner_id = #{ownerId}
+    </delete>
+
+
+    <delete id="delete">
+        DELETE FROM pet WHERE pet_id = #{petId}
+    </delete>
+</mapper>

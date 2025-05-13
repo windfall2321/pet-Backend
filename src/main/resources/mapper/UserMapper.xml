@@ -29,4 +29,14 @@
             last_login = NOW()
         WHERE user_id = #{userId}
     </update>
+
+    <update id="updateUserInfo">
+        UPDATE user
+        <set>
+            <if test="user.username != null">username = #{user.username},</if>
+            <if test="user.password != null">password = #{user.password},</if>
+            <if test="user.profile != null">profile = #{user.profile},</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
 </mapper> 
