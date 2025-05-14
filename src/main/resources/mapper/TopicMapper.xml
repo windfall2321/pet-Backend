@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.petbackend.mapper.TopicMapper">
+
+    <resultMap id="BaseResultMap" type="web.petbackend.entity.Topic">
+        <id column="topic_id" property="topicId"/>
+        <result column="title" property="title"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="tags" property="tags"/>
+        <result column="timestamp" property="timestamp"/>
+    </resultMap>
+
+    <select id="selectTopicById" resultMap="BaseResultMap">
+        SELECT * FROM topic WHERE topic_id = #{id}
+    </select>
+
+    <select id="selectAllTopics" resultMap="BaseResultMap">
+        SELECT * FROM topic
+    </select>
+
+    <insert id="insertTopic">
+        INSERT INTO topic (title, user_id, content, tags, timestamp)
+        VALUES (#{title}, #{userId}, #{content}, #{tags}, #{timestamp})
+    </insert>
+
+    <update id="updateTopic">
+        UPDATE topic
+        SET title = #{title},
+            content = #{content},
+            tags = #{tags},
+            timestamp = #{timestamp}
+        WHERE topic_id = #{topicId}
+    </update>
+
+    <select id="selectImageIdsByTopicId" resultType="Integer">
+        SELECT image_id FROM image WHERE topic_id = #{id}
+    </select>
+
+
+    <select id="selectCommentIdsByTopicId" resultType="Integer">
+        SELECT comment_id FROM comment WHERE topic_id = #{id};
+    </select>
+
+
+    <delete id="deleteTopic">
+        DELETE FROM topic WHERE topic_id = #{id}
+    </delete>
+
+</mapper>
