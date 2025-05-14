@@ -39,6 +39,11 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    public Pet selectById(int petId) {
+        return petMapper.selectById(petId);
+    }
+
+    @Override
     public List<Pet> selectByOwnerId(int ownerId) {
         return petMapper.selectByOwnerId(ownerId);
     }
@@ -48,4 +53,5 @@ public class PetServiceImpl implements PetService {
         petMapper.deleteByOwnerId(ownerId);
 
     }
+
 }
