@@ -9,4 +9,5 @@ public class Pet {
     private int ownerId;
     private String Breed;
     private String Gender;
+    private String city;
 }
