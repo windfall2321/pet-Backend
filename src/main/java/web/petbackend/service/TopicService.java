@@ -9,5 +9,6 @@ public interface TopicService {
     void addTopic(Topic topic);
     void updateTopic(Topic topic);
     void deleteTopic(Integer id);
+    List<Topic> getAllTopicsByUserId(Integer UserId);
 }
 

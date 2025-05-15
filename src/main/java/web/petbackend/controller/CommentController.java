@@ -2,9 +2,11 @@ package web.petbackend.controller;
 
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.entity.Comment;
+import web.petbackend.entity.Topic;
 import web.petbackend.service.CommentService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import web.petbackend.utils.UserContextHolder;
 
 import java.util.List;
 
@@ -25,6 +27,14 @@ public class CommentController {
     public ApiResponse<List<Comment>> getCommentsByTopicId(@PathVariable Integer topicId) {
         List<Comment> comments = commentService.getCommentsByTopicId(topicId);
         return ApiResponse.success("获取话题评论成功", comments);
+    }
+
+    @GetMapping("/listByUserId")
+    public ApiResponse<List<Comment>> getTopicByUser() {
+        Integer userId = UserContextHolder.getUserId();
+        List<Comment> comments = commentService.getAllCommentsByUserId(userId);
+        return ApiResponse.success("获取成功", comments);
+
     }
 
     @PostMapping("/add")
