@@ -28,7 +28,10 @@ public class AdoptionListingServiceImpl implements AdoptionListingService {
     public AdoptionListing getAdoptionById(Integer adoptionId) {
         return adoptionListingMapper.selectById(adoptionId);
     }
-
+    @Override
+    public List<AdoptionListing> getAdoptionByUserId(Integer userId) {
+        return adoptionListingMapper.selectByUserId(userId);
+    }
     @Override
     public List<AdoptionListing> getAllAdoptions() {
         return adoptionListingMapper.selectAll();

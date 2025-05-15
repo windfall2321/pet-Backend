@@ -28,7 +28,9 @@ public class AdoptionApplicationServiceImpl implements AdoptionApplicationServic
     public List<AdoptionApplication> getApplicationsByAdoptionId(Integer adoptionId) {
         return applicationMapper.selectByAdoptionId(adoptionId);
     }
-
+    public List<AdoptionApplication> getApplicationsByUserId(Integer userId) {
+        return applicationMapper.selectByUserId(userId);
+    }
     @Override
     public List<AdoptionApplication> getAllApplications() {
         return applicationMapper.selectAll();
