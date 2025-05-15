@@ -1,6 +1,7 @@
 package web.petbackend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import web.petbackend.entity.Comment;
 import web.petbackend.entity.Topic;
 import web.petbackend.mapper.TopicMapper;
 import web.petbackend.service.TopicService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import web.petbackend.service.CommentService;// 导入 CommentService
 import web.petbackend.service.ImageService;  // 导入 ImageService
+import web.petbackend.utils.UserContextHolder;
 
 import java.util.List;
 @Service
@@ -33,7 +35,14 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public List<Topic> getAllTopicsByUserId(Integer UserId) {
+        return topicMapper.selectByUserId(UserId);
+    }
+
+    @Override
     public void addTopic(Topic topic) {
+        Integer userId = UserContextHolder.getUserId();
+        topic.setUserId(userId);
         topicMapper.insertTopic(topic);
     }
 

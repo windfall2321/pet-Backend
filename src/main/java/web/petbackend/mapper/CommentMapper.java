@@ -3,6 +3,8 @@ package web.petbackend.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import web.petbackend.entity.Comment;
+import web.petbackend.entity.Topic;
+
 import java.util.List;
 
 @Mapper
@@ -13,4 +15,5 @@ public interface CommentMapper {
     void updateComment(Comment comment);
     void deleteComment(@Param("id") Integer id);
     List<Integer> selectImageIdsByCommentId(@Param("id") Integer id);
+    List<Comment> selectByUserId(@Param("UserId") Integer UserId);
 }

@@ -18,6 +18,10 @@
         SELECT * FROM topic WHERE topic_id = #{id}
     </select>
 
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT * FROM topic WHERE user_id = #{UserId}
+    </select>
+
     <select id="selectAllTopics" resultMap="BaseResultMap">
         SELECT * FROM topic
     </select>

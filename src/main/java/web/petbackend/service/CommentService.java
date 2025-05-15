@@ -2,6 +2,8 @@ package web.petbackend.service;
 
 import org.apache.ibatis.annotations.Param;
 import web.petbackend.entity.Comment;
+import web.petbackend.entity.Topic;
+
 import java.util.List;
 
 public interface CommentService {
@@ -10,4 +12,5 @@ public interface CommentService {
     void addComment(Comment comment);
     void updateComment(Comment comment);
     void deleteComment(Integer id);
+    List<Comment> getAllCommentsByUserId(Integer UserId);
 }

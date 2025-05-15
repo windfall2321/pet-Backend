@@ -23,7 +23,9 @@
         WHERE comment_id = #{commentId}
     </update>
 
-
+    <select id="selectByUserId" parameterType="int" resultType="web.petbackend.entity.Comment">
+        SELECT * FROM comment WHERE user_id = #{UserId}
+    </select>
     <!-- 获取与评论关联的图片 ID -->
     <select id="selectImageIdsByCommentId" resultType="Integer">
         SELECT image_id FROM image WHERE comment_id = #{id}
