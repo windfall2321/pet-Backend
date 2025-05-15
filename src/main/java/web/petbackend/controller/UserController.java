@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.entity.User;
 import web.petbackend.service.UserService;
-import web.petbackend.utils.JwtUtil;
+import web.petbackend.utils.UserContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.petbackend.config.exception.BusinessException;
@@ -26,9 +26,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestBody UserLoginRequest request) {
+    public ApiResponse<String> login(@RequestParam String username, @RequestParam String password) {
         try {
-            String token = userService.login(request.getUsername(), request.getPassword());
+            String token = userService.login(username, password);
             return ApiResponse.success("登录成功", token);
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR.getCode(), "用户名或密码错误");
@@ -36,37 +36,23 @@ public class UserController {
     }
     
     @GetMapping("/info")
-    public ApiResponse<User> getUserInfo(@RequestHeader("Authorization") String token) {
-        try {
-            Integer userId = JwtUtil.parseToken(token);
-            System.out.println(userId);
-            User user = userService.getUserInfo(userId);
-            return ApiResponse.success("获取用户信息成功", user);
-        } catch (Exception e) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR.getCode(), "未登录或登录已过期");
-        }
+    public ApiResponse<User> getUserInfo() {
+        Integer userId = UserContextHolder.getUserId();
+        User user = userService.getUserInfo(userId);
+        return ApiResponse.success("获取用户信息成功", user);
     }
 
     @PostMapping("/logout")
-    public ApiResponse<String> logout(@RequestHeader("Authorization") String token) {
-        try {
-            Integer userId = JwtUtil.parseToken(token);
-            userService.logout(userId);
-            return ApiResponse.success("登出成功");
-        } catch (Exception e) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR.getCode(), "未登录或登录已过期");
-        }
+    public ApiResponse<String> logout() {
+        Integer userId = UserContextHolder.getUserId();
+        userService.logout(userId);
+        return ApiResponse.success("登出成功");
     }
 
     @PutMapping("/updateinfo")
-    public ApiResponse<User> updateUserInfo(@RequestHeader("Authorization") String token, @RequestBody User user) {
-        try {
-            Integer userId = JwtUtil.parseToken(token);
-            System.out.println(userId);
-            User updatedUser = userService.updateUserInfo(userId, user);
-            return ApiResponse.success("更新用户信息成功", updatedUser);
-        } catch (RuntimeException e) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), e.getMessage());
-        }
+    public ApiResponse<User> updateUserInfo(@RequestBody User user) {
+        Integer userId = UserContextHolder.getUserId();
+        User updatedUser = userService.updateUserInfo(userId, user);
+        return ApiResponse.success("更新用户信息成功", updatedUser);
     }
 } 
