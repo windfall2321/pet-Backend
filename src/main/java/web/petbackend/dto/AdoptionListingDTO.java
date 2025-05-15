@@ -16,4 +16,5 @@ public class AdoptionListingDTO {
     private String petName;
     private String petBreed;
     private String petGender;
+    private String petCity;
 }

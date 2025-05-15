@@ -60,6 +60,7 @@ public class AdoptionListingServiceImpl implements AdoptionListingService {
             dto.setPetName(pet.getName());
             dto.setPetBreed(pet.getBreed());
             dto.setPetGender(pet.getGender());
+            dto.setPetCity(pet.getCity());
         }
 
         return dto;
