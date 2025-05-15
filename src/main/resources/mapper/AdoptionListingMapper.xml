@@ -23,7 +23,10 @@
     <select id="selectById" resultMap="AdoptionListingResultMap">
         SELECT * FROM adoption_listing WHERE adoption_id = #{adoptionId}
     </select>
-
+    <!-- Select an AdoptionListing by ID -->
+    <select id="selectByUserId" resultMap="AdoptionListingResultMap">
+        SELECT * FROM adoption_listing WHERE listed_by = #{listedBy}
+    </select>
     <!-- Select all AdoptionListings -->
     <select id="selectAll" resultMap="AdoptionListingResultMap">
         SELECT * FROM adoption_listing

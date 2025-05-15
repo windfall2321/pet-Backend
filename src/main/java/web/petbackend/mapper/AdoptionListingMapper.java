@@ -12,6 +12,7 @@ public interface AdoptionListingMapper {
     int insert(AdoptionListing listing);
 
     AdoptionListing selectById(@Param("adoptionId") Integer adoptionId);
+    List<AdoptionListing> selectByUserId(@Param("listedBy") Integer listedBy);
 
     List<AdoptionListing> selectAll();
 

@@ -9,6 +9,7 @@ public interface AdoptionListingService {
     int addAdoption(AdoptionListing listing);
 
     AdoptionListing getAdoptionById(Integer adoptionId);
+    List<AdoptionListing> getAdoptionByUserId(Integer userId);
 
     List<AdoptionListing> getAllAdoptions();
 

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import web.petbackend.entity.AdoptionApplication;
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.service.AdoptionApplicationService;
+import web.petbackend.utils.UserContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,10 +22,10 @@ public class AdoptionApplicationController {
     @PostMapping("/add")
     public ApiResponse<AdoptionApplication> addApplication(
             @RequestParam Integer adoptionId,
-            @RequestParam Integer applicantId,
             @RequestParam(required = false) String reason
     ) {
         try {
+            Integer applicantId = UserContextHolder.getUserId();
             AdoptionApplication application = new AdoptionApplication();
             application.setAdoptionId(adoptionId);
             application.setApplicantId(applicantId);
@@ -59,13 +60,39 @@ public class AdoptionApplicationController {
             return ApiResponse.error(500, "查询申请失败: " + e.getMessage());
         }
     }
+    @GetMapping("/getbyuserid")
+    public ApiResponse<?> getApplicationByUserId() {
+        try {
+            Integer userId = UserContextHolder.getUserId();
+            List<AdoptionApplication> apps = adoptionApplicationService.getApplicationsByUserId(userId);
+                if (apps == null) {
+                    return ApiResponse.error(404, "未找到该申请");
+                }
+                return ApiResponse.success("查询成功", apps);
+
+        } catch (Exception e) {
+            return ApiResponse.error(500, "查询申请失败: " + e.getMessage());
+        }
+    }@GetMapping("/getbyadoptionid")
+    public ApiResponse<?> getApplicationByAdoptionId(@RequestParam(required = true) Integer id) {
+        try {
+                List<AdoptionApplication> apps = adoptionApplicationService.getApplicationsByAdoptionId(id);
+                if (apps == null) {
+                    return ApiResponse.error(404, "未找到该申请");
+                }
+                return ApiResponse.success("查询成功", apps);
+
+        } catch (Exception e) {
+            return ApiResponse.error(500, "查询申请失败: " + e.getMessage());
+        }
+    }
 
     // 更新申请
     @PatchMapping("/update")
     public ApiResponse<AdoptionApplication> partialUpdateAdoptionApplication(
             @RequestParam(value = "adoptionApplicationId") Integer adoptionApplicationId,
             @RequestParam(value = "adoptionId", required = false) Integer adoptionId,
-            @RequestParam(value = "applicantId", required = false) Integer applicantId,
+//            @RequestParam(value = "applicantId", required = false) Integer applicantId,
             @RequestParam(value = "reason", required = false) String reason,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "listedAt", required = false) LocalDateTime listedAt,
@@ -77,10 +104,11 @@ public class AdoptionApplicationController {
             if (existing == null) {
                 return ApiResponse.error(404, "未找到对应的申请记录");
             }
-
+            Integer userId = UserContextHolder.getUserId();
+            if(userId == null) return ApiResponse.error(500, "用户未登录");
             // 更新字段
             if (adoptionId != null) existing.setAdoptionId(adoptionId);
-            if (applicantId != null) existing.setApplicantId(applicantId);
+            existing.setApplicantId(userId);
             if (reason != null) existing.setReason(reason);
             if (status != null) existing.setStatus(status);
             if (listedAt != null) existing.setListedAt(listedAt);

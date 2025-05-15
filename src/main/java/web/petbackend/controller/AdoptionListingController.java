@@ -7,6 +7,7 @@ import web.petbackend.entity.ApiResponse;
 import web.petbackend.service.AdoptionListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import web.petbackend.utils.UserContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,14 +26,15 @@ public class AdoptionListingController {
     @PostMapping("/add")
     public ApiResponse<AdoptionListing> addAdoption(
             @RequestParam Integer petId,
-            @RequestParam Integer listedBy,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String image
     ) {
         try {
+            Integer userId = UserContextHolder.getUserId();
+            List<AdoptionListing> adoptionListings = adoptionListingService.getAdoptionByUserId(userId);
             AdoptionListing listing = new AdoptionListing();
             listing.setPetId(petId);
-            listing.setListedBy(listedBy);
+            listing.setListedBy(userId);
             listing.setDescription(Objects.requireNonNullElse(description, "无"));
             listing.setStatus("available");
             listing.setListedAt(LocalDateTime.now());
@@ -69,12 +71,29 @@ public class AdoptionListingController {
         }
     }
 
+    // 根据id查询领养信息或查询所有领养信息
+    @GetMapping("/getbyuserid")
+    public ApiResponse<?> getAdoptionByUserId() {
+        try {
+            Integer userId = UserContextHolder.getUserId();
+            List<AdoptionListing> adoptionListings = adoptionListingService.getAdoptionByUserId(userId);
+//                if (adoptionListing == null) {
+//                    return ApiResponse.error(404, "未找到对应的领养信息");
+//                }
+            List<AdoptionListingDTO> dtoList = adoptionListings.stream()
+                    .map(adoptionListingService::convertToDTO)
+                    .collect(Collectors.toList());
+            return ApiResponse.success("查询成功", dtoList);
+
+        } catch (Exception e) {
+            return ApiResponse.error(500, "查询失败: " + e.getMessage());
+        }
+    }
     // 部分更新领养信息
     @PatchMapping("/update")
     public ApiResponse<AdoptionListing> updateAdoption(
             @RequestParam Integer adoptionId,
             @RequestParam(required = false) Integer petId,
-            @RequestParam(required = false) Integer listedBy,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String image,
@@ -86,9 +105,9 @@ public class AdoptionListingController {
             if (listing == null) {
                 return ApiResponse.error(404, "未找到该领养信息");
             }
-
+            Integer listedBy = UserContextHolder.getUserId();
             if (petId != null) listing.setPetId(petId);
-            if (listedBy != null) listing.setListedBy(listedBy);
+            listing.setListedBy(listedBy);
             if (description != null) listing.setDescription(description);
             if (status != null) listing.setStatus(status);
             if (image != null) listing.setImage(image);
