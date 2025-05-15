@@ -9,6 +9,7 @@ public interface PetService {
     Pet updatePet(Pet pet);
     void deletePet(Pet pet);
     List<Pet> getPets();
+    Pet selectById(int petId);
 
     List<Pet> selectByOwnerId(int ownerId);
     void deleteByOwnerId(int ownerId);
