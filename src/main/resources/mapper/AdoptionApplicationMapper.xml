@@ -26,6 +26,9 @@
     <select id="selectByAdoptionId" resultMap="AdoptionApplicationResultMap">
         SELECT * FROM adoption_application WHERE adoption_id = #{adoptionId}
     </select>
+    <select id="selectByUserId" resultMap="AdoptionApplicationResultMap">
+        SELECT * FROM adoption_application WHERE applicant_id = #{applicantId}
+    </select>
 
     <select id="selectAll" resultMap="AdoptionApplicationResultMap">
         SELECT * FROM adoption_application

@@ -10,6 +10,8 @@ public interface AdoptionApplicationMapper {
     int insert(AdoptionApplication application);
     AdoptionApplication selectById(Integer applicationId);
     List<AdoptionApplication> selectByAdoptionId(Integer adoptionId);
+    List<AdoptionApplication> selectByUserId(Integer userId);
+
     List<AdoptionApplication> selectAll();
     int update(AdoptionApplication application);
     int deleteById(Integer applicationId);
