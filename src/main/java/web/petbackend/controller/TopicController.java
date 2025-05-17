@@ -5,6 +5,9 @@ import web.petbackend.entity.Topic;
 import web.petbackend.service.TopicService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import web.petbackend.utils.UserContextHolder;
+
+
 
 import java.util.List;
 
@@ -19,6 +22,15 @@ public class TopicController {
     public ApiResponse<Topic> getTopic(@PathVariable Integer id) {
         Topic topic = topicService.getTopicById(id);
         return ApiResponse.success("获取成功", topic);
+    }
+
+
+    @GetMapping("/listByUserId")
+    public ApiResponse<List<Topic>> getTopicByUser() {
+        Integer userId = UserContextHolder.getUserId();
+        List<Topic> topics = topicService.getAllTopicsByUserId(userId);
+        return ApiResponse.success("获取成功", topics);
+
     }
 
     @GetMapping("/list")

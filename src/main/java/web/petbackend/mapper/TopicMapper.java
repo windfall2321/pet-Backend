@@ -15,4 +15,5 @@ public interface TopicMapper {
 
     List<Integer> selectCommentIdsByTopicId(@Param("id") Integer id);
     List<Integer> selectImageIdsByTopicId(@Param("id") Integer id);
+    List<Topic> selectByUserId(@Param("UserId") Integer UserId);
 }
