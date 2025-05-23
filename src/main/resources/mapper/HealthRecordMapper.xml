@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="web.petbackend.mapper.HealthRecordMapper">
+
+    <resultMap id="BaseResultMap" type="web.petbackend.entity.HealthRecord">
+        <id column="record_id" property="recordId"/>
+        <result column="pet_id" property="petId"/>
+        <result column="type" property="type"/>
+        <result column="description" property="description"/>
+        <result column="record_date" property="recordDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="web.petbackend.entity.HealthRecord" useGeneratedKeys="true" keyProperty="recordId">
+        INSERT INTO health_record (pet_id, type, description, record_date)
+        VALUES (#{petId}, #{type}, #{description}, #{recordDate})
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM health_record WHERE record_id = #{recordId}
+    </delete>
+
+    <update id="update" parameterType="web.petbackend.entity.HealthRecord">
+        UPDATE health_record
+        SET pet_id = #{petId},
+            type = #{type},
+            description = #{description},
+            record_date = #{recordDate}
+        WHERE record_id = #{recordId}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM health_record WHERE record_id = #{recordId}
+    </select>
+
+    <select id="selectByPetId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * FROM health_record WHERE pet_id = #{petId}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM health_record
+    </select>
+
+</mapper>
