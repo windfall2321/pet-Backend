@@ -1,6 +1,7 @@
 package web.petbackend.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.http.MediaType;
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.entity.User;
 import web.petbackend.service.UserService;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.petbackend.config.exception.BusinessException;
 import web.petbackend.config.exception.ErrorCode;
-import web.petbackend.dto.UserLoginRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 @SecurityRequirement(name = "Bearer Token")
 @RestController
@@ -18,6 +19,8 @@ public class UserController {
     
     @Autowired
     private UserService userService;
+    
+
     
     @PostMapping("/register")
     public ApiResponse<User> register(@RequestBody User user) {
@@ -54,5 +57,19 @@ public class UserController {
         Integer userId = UserContextHolder.getUserId();
         User updatedUser = userService.updateUserInfo(userId, user);
         return ApiResponse.success("更新用户信息成功", updatedUser);
+    }
+
+    @PostMapping(value = "/profile/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResponse<User> uploadProfile(@RequestParam("file") MultipartFile file) {
+        Integer userId = UserContextHolder.getUserId();
+        User user = userService.uploadProfile(userId, file);
+        return ApiResponse.success("上传头像成功", user);
+    }
+
+    @DeleteMapping("/profile")
+    public ApiResponse<String> deleteProfile() {
+        Integer userId = UserContextHolder.getUserId();
+        userService.deleteProfile(userId);
+        return ApiResponse.success("删除头像成功");
     }
 } 
