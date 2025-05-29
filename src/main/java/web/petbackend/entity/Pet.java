@@ -10,4 +10,6 @@ public class Pet {
     private String Breed;
     private String Gender;
     private String city;
+    private String image;
+
 }
