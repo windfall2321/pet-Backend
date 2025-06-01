@@ -8,13 +8,11 @@
         <result column="breed" property="Breed"/>
         <result column="gender" property="Gender"/>
         <result column="city" property="city"/>
-        <result column="image" property="image"/>
-
     </resultMap>
 
     <insert id="insert" parameterType="web.petbackend.entity.Pet" useGeneratedKeys="true" keyProperty="petId">
-        INSERT INTO pet (name, owner_id, breed, gender, city,image)
-        VALUES (#{Name}, #{ownerId}, #{Breed}, #{Gender}, #{city}, #{image})
+        INSERT INTO pet (name, owner_id, breed, gender, city)
+        VALUES (#{Name}, #{ownerId}, #{Breed}, #{Gender}, #{city})
     </insert>
 
     <update id="update" parameterType="web.petbackend.entity.Pet">
@@ -23,8 +21,7 @@
             owner_id = #{ownerId},
             breed = #{Breed},
             gender = #{Gender},
-            city = #{city},
-            image = #{image}
+            city = #{city}
         WHERE pet_id = #{petId}
     </update>
 

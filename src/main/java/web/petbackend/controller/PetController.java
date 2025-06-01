@@ -1,9 +1,7 @@
 package web.petbackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.entity.Pet;
 import web.petbackend.service.PetService;
@@ -51,17 +49,5 @@ public class PetController {
     public ApiResponse<String> deletePetsByOwnerId(@PathVariable int ownerId) {
         petService.deleteByOwnerId(ownerId);
         return ApiResponse.success("删除指定用户的所有宠物成功");
-    }
-
-    @PostMapping(value = "/image/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ApiResponse<Pet> uploadImage(@RequestParam("petId") int petId,@RequestParam("file") MultipartFile file) {
-        Pet pet = petService.uploadImage(petId, file);
-        return ApiResponse.success("上传头像成功", pet);
-    }
-
-    @DeleteMapping("/image")
-    public ApiResponse<String> deleteProfile(@RequestParam("petId") int petId) {
-        petService.deleteImage(petId);
-        return ApiResponse.success("删除头像成功");
     }
 }
