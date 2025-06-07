@@ -135,4 +135,24 @@ public class AdoptionListingController {
             return ApiResponse.error(500, "删除失败: " + e.getMessage());
         }
     }
+
+    // 搜索领养信息
+    @GetMapping("/search")
+    public ApiResponse<?> searchAdoptions(@RequestParam(required = false) String petName) {
+        try {
+            List<AdoptionListing> adoptionListings;
+            if (petName != null && !petName.trim().isEmpty()) {
+                adoptionListings = adoptionListingService.searchByPetName(petName.trim());
+            } else {
+                adoptionListings = adoptionListingService.getAllAdoptions();
+            }
+            
+            List<AdoptionListingDTO> dtoList = adoptionListings.stream()
+                    .map(adoptionListingService::convertToDTO)
+                    .collect(Collectors.toList());
+            return ApiResponse.success("搜索成功", dtoList);
+        } catch (Exception e) {
+            return ApiResponse.error(500, "搜索失败: " + e.getMessage());
+        }
+    }
 }

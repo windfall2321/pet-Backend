@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class Pet {
     private int petId;
-    private String Name;
+    private String name;
     private int ownerId;
-    private String Breed;
-    private String Gender;
+    private String breed;
+    private String gender;
     private String city;
     private String image;
 

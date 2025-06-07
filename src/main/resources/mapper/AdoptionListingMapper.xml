@@ -52,4 +52,11 @@
         DELETE FROM adoption_listing WHERE adoption_id = #{adoptionId}
     </delete>
 
+    <select id="searchByPetName" resultType="web.petbackend.entity.AdoptionListing">
+        SELECT a.* 
+        FROM adoption_listing a
+        JOIN pet p ON a.pet_id = p.pet_id
+        WHERE p.name LIKE CONCAT('%', #{petName}, '%')
+    </select>
+
 </mapper>
