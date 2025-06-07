@@ -46,6 +46,10 @@ public class UserServiceImpl implements UserService {
         
         // 保存用户
         userMapper.insert(user);
+        
+        // 设置登录状态为在线
+        userMapper.updateLoginStatus(user.getUserId(), 1);
+        
         return user;
     }
     
