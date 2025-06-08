@@ -3,8 +3,10 @@ package web.petbackend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.petbackend.entity.AdoptionApplication;
+import web.petbackend.entity.AdoptionListing;
 import web.petbackend.entity.ApiResponse;
 import web.petbackend.service.AdoptionApplicationService;
+import web.petbackend.service.AdoptionListingService;
 import web.petbackend.utils.UserContextHolder;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,9 @@ public class AdoptionApplicationController {
 
     @Autowired
     private AdoptionApplicationService adoptionApplicationService;
+
+    @Autowired
+    private AdoptionListingService adoptionListingService;
 
     // 添加申请
     @PostMapping("/add")
@@ -92,7 +97,6 @@ public class AdoptionApplicationController {
     public ApiResponse<AdoptionApplication> partialUpdateAdoptionApplication(
             @RequestParam(value = "adoptionApplicationId") Integer adoptionApplicationId,
             @RequestParam(value = "adoptionId", required = false) Integer adoptionId,
-//            @RequestParam(value = "applicantId", required = false) Integer applicantId,
             @RequestParam(value = "reason", required = false) String reason,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "listedAt", required = false) LocalDateTime listedAt,
@@ -106,14 +110,28 @@ public class AdoptionApplicationController {
             }
             Integer userId = UserContextHolder.getUserId();
             if(userId == null) return ApiResponse.error(500, "用户未登录");
-            // 更新字段
+
+            // 更新申请字段
             if (adoptionId != null) existing.setAdoptionId(adoptionId);
-            existing.setApplicantId(userId);
             if (reason != null) existing.setReason(reason);
             if (status != null) existing.setStatus(status);
             if (listedAt != null) existing.setListedAt(listedAt);
             if (adoptedAt != null) existing.setAdoptedAt(adoptedAt);
             if (reviewedBy != null) existing.setReviewedBy(reviewedBy);
+
+            // 如果状态更新为已同意，同时更新领养信息
+            if ("approved".equals(status)) {
+                LocalDateTime now = LocalDateTime.now();
+                existing.setAdoptedAt(now);
+
+                // 更新领养信息
+                AdoptionListing listing = adoptionListingService.getAdoptionById(existing.getAdoptionId());
+                if (listing != null) {
+                    listing.setStatus("adopted");
+                    listing.setAdoptedAt(now);
+                    adoptionListingService.updateAdoption(listing);
+                }
+            }
 
             adoptionApplicationService.updateApplication(existing);
             return ApiResponse.success("更新成功", existing);

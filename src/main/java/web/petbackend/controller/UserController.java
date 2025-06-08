@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import web.petbackend.config.exception.BusinessException;
 import web.petbackend.config.exception.ErrorCode;
 import org.springframework.web.multipart.MultipartFile;
+import web.petbackend.dto.UserLoginRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,9 +40,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestParam String username, @RequestParam String password) {
+    public ApiResponse<String> login(@RequestBody UserLoginRequest loginRequest) {
         try {
-            String token = userService.login(username, password);
+            String token = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
             return ApiResponse.success("登录成功", token);
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR.getCode(), "用户名或密码错误");
