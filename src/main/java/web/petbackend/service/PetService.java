@@ -8,7 +8,7 @@ import java.util.List;
 public interface PetService {
     Pet addPet(Pet pet);
     Pet updatePet(Pet pet);
-    void deletePet(Pet pet);
+    void deletePet(int petId);
     List<Pet> getPets();
     Pet selectById(int petId);
     Pet uploadImage(Integer petId, MultipartFile file);

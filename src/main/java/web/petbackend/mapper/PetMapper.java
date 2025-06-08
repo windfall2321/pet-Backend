@@ -16,6 +16,8 @@ public interface PetMapper {
     List<Pet> selectAll();
 
     List<Pet> selectByOwnerId(int ownerId);
+    
     void deleteByOwnerId(int ownerId);
-    void deleteById(int PetId);
+    
+    void delete(int petId);
 }
