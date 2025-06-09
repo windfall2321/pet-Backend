@@ -6,11 +6,15 @@ import web.petbackend.entity.ApiResponse;
 import web.petbackend.entity.User;
 import web.petbackend.service.UserService;
 import web.petbackend.utils.UserContextHolder;
+import web.petbackend.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.petbackend.config.exception.BusinessException;
 import web.petbackend.config.exception.ErrorCode;
 import org.springframework.web.multipart.MultipartFile;
+import web.petbackend.dto.UserLoginRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @SecurityRequirement(name = "Bearer Token")
 @RestController
@@ -23,15 +27,22 @@ public class UserController {
 
     
     @PostMapping("/register")
-    public ApiResponse<User> register(@RequestBody User user) {
+    public ApiResponse<Map<String, Object>> register(@RequestBody User user) {
         User registeredUser = userService.register(user);
-        return ApiResponse.success("注册成功", registeredUser);
+        // 生成 token
+        String token = JwtUtil.createJWT(registeredUser.getUserId());
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", registeredUser);
+        response.put("token", token);
+        
+        return ApiResponse.success("注册成功", response);
     }
 
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestParam String username, @RequestParam String password) {
+    public ApiResponse<String> login(@RequestBody UserLoginRequest loginRequest) {
         try {
-            String token = userService.login(username, password);
+            String token = userService.login(loginRequest.getUsername(), loginRequest.getPassword());
             return ApiResponse.success("登录成功", token);
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR.getCode(), "用户名或密码错误");

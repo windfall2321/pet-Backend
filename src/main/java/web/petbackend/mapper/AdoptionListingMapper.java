@@ -19,4 +19,6 @@ public interface AdoptionListingMapper {
     int update(AdoptionListing listing);
 
     int deleteById(@Param("adoptionId") Integer adoptionId);
+
+    List<AdoptionListing> searchByPetName(@Param("petName") String petName);
 }

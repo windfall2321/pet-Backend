@@ -19,4 +19,5 @@ public interface AdoptionListingService {
 
     AdoptionListingDTO convertToDTO(AdoptionListing listing);
 
+    List<AdoptionListing> searchByPetName(String petName);
 }
