@@ -3,6 +3,7 @@ package web.petbackend.service.impl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,6 @@ public class UserServiceImpl implements UserService {
     @Value("${upload.profile.url-prefix}")
     private String urlPrefix;
     
-    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         }
         
         // 加密密码
-        //user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(DigestUtils.md5Hex(user.getPassword()));
         
         // 保存用户
         userMapper.insert(user);
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String username, String password) {
         User user = userMapper.findByUsername(username);
-        if (user == null || !password.equals(user.getPassword())) {
+        if (user == null || !DigestUtils.md5Hex(password).equals(user.getPassword())) {
             throw new RuntimeException("用户名或密码错误");
         }
         
