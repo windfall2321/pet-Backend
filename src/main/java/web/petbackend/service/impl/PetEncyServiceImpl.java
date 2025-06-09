@@ -41,4 +41,14 @@ public class PetEncyServiceImpl implements PetEncyService {
         long total = petEncyMapper.countItems();
         return new PageResult<>(total, petencys);
     }
+
+    @Override
+    public PageResult<PetEncyclopedia> getPetEncyByPageWithFilters(int pageNum, int pageSize, String category, String bodilyForm) {
+        int offset = (pageNum - 1) * pageSize;
+        List<PetEncyclopedia> list = petEncyMapper.getPetEncyByPageWithFilters(offset, pageSize, category, bodilyForm);
+        long total = petEncyMapper.countItemsWithFilters(category, bodilyForm);
+        return new PageResult<>(total, list);
+    }
+
+
 }

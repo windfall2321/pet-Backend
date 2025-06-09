@@ -19,4 +19,14 @@ public interface PetEncyMapper {
     List<PetEncyclopedia> getPetEncyByPage(@Param("offset") int offset, @Param("size") int size);
 
     Integer countItems(); // 统计总条数
+
+    List<PetEncyclopedia> getPetEncyByPageWithFilters(@Param("offset") int offset,
+                                                      @Param("size") int size,
+                                                      @Param("category") String category,
+                                                      @Param("bodilyForm") String bodilyForm);
+
+    Long countItemsWithFilters(@Param("category") String category,
+                               @Param("bodilyForm") String bodilyForm);
+
+
 }

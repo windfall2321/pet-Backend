@@ -11,5 +11,8 @@ public interface PetEncyService {
     void addPetEncy(PetEncyclopedia petEncyclopedia);
     void deletePetEncy(Integer petEncyId);
     void updatePetEncy(PetEncyclopedia petEncyclopedia);
+    PageResult<PetEncyclopedia> getPetEncyByPageWithFilters(int pageNum, int pageSize, String category, String bodilyForm);
+
+
 
 }
