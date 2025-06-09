@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="web.petbackend.mapper.AdoptionListingMapper">
+
+    <!-- Base ResultMap for AdoptionListing -->
+    <resultMap id="AdoptionListingResultMap" type="web.petbackend.entity.AdoptionListing">
+        <id column="adoption_id" property="adoptionId"/>
+        <result column="pet_id" property="petId"/>
+        <result column="listed_by" property="listedBy"/>
+        <result column="description" property="description"/>
+        <result column="status" property="status"/>
+        <result column="listed_at" property="listedAt"/>
+        <result column="adopted_at" property="adoptedAt"/>
+    </resultMap>
+
+    <!-- Insert new AdoptionListing -->
+    <insert id="insert" parameterType="web.petbackend.entity.AdoptionListing" useGeneratedKeys="true" keyProperty="adoptionId">
+        INSERT INTO adoption_listing (pet_id, listed_by, description, status, listed_at, adopted_at,image)
+        VALUES (#{petId}, #{listedBy}, #{description}, #{status}, #{listedAt}, #{adoptedAt},#{image})
+    </insert>
+
+    <!-- Select an AdoptionListing by ID -->
+    <select id="selectById" resultMap="AdoptionListingResultMap">
+        SELECT * FROM adoption_listing WHERE adoption_id = #{adoptionId}
+    </select>
+    <!-- Select an AdoptionListing by ID -->
+    <select id="selectByUserId" resultMap="AdoptionListingResultMap">
+        SELECT * FROM adoption_listing WHERE listed_by = #{listedBy}
+    </select>
+    <!-- Select all AdoptionListings -->
+    <select id="selectAll" resultMap="AdoptionListingResultMap">
+        SELECT * FROM adoption_listing
+    </select>
+
+    <!-- Update an AdoptionListing -->
+    <update id="update" parameterType="web.petbackend.entity.AdoptionListing">
+        UPDATE adoption_listing
+        <set>
+            <if test="petId != null">pet_id = #{petId},</if>
+            <if test="listedBy != null">listed_by = #{listedBy},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="listedAt != null">listed_at = #{listedAt},</if>
+            <if test="adoptedAt != null">adopted_at = #{adoptedAt},</if>
+            <if test="image != null">image = #{image},</if>
+        </set>
+        WHERE adoption_id = #{adoptionId}
+    </update>
+
+    <!-- Delete an AdoptionListing by ID -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM adoption_listing WHERE adoption_id = #{adoptionId}
+    </delete>
+
+    <select id="searchByPetName" resultType="web.petbackend.entity.AdoptionListing">
+        SELECT a.* 
+        FROM adoption_listing a
+        JOIN pet p ON a.pet_id = p.pet_id
+        WHERE p.name LIKE CONCAT('%', #{petName}, '%')
+    </select>
+
+</mapper>
