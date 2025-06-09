@@ -30,8 +30,8 @@ public class PetController {
     }
     
     @DeleteMapping("/delete")
-    public ApiResponse<String> deletePet(@RequestBody Pet pet) {
-        petService.deletePet(pet);
+    public ApiResponse<String> deletePet(@RequestParam int petId) {
+        petService.deletePet(petId);
         return ApiResponse.success("删除宠物成功");
     }
     

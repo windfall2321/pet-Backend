@@ -3,28 +3,27 @@
 <mapper namespace="web.petbackend.mapper.PetMapper">
     <resultMap id="BaseResultMap" type="web.petbackend.entity.Pet">
         <id column="pet_id" property="petId"/>
-        <result column="name" property="Name"/>
+        <result column="name" property="name"/>
         <result column="owner_id" property="ownerId"/>
-        <result column="breed" property="Breed"/>
-        <result column="gender" property="Gender"/>
+        <result column="breed" property="breed"/>
+        <result column="gender" property="gender"/>
         <result column="city" property="city"/>
         <result column="image" property="image"/>
 
     </resultMap>
 
     <insert id="insert" parameterType="web.petbackend.entity.Pet" useGeneratedKeys="true" keyProperty="petId">
-        INSERT INTO pet (name, owner_id, breed, gender, city,image)
-        VALUES (#{Name}, #{ownerId}, #{Breed}, #{Gender}, #{city}, #{image})
+        INSERT INTO pet (name, owner_id, breed, gender, city)
+        VALUES (#{name}, #{ownerId}, #{breed}, #{gender}, #{city})
     </insert>
 
     <update id="update" parameterType="web.petbackend.entity.Pet">
         UPDATE pet
-        SET name = #{Name},
+        SET name = #{name},
             owner_id = #{ownerId},
-            breed = #{Breed},
-            gender = #{Gender},
-            city = #{city},
-            image = #{image}
+            breed = #{breed},
+            gender = #{gender},
+            city = #{city}
         WHERE pet_id = #{petId}
     </update>
 

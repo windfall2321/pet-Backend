@@ -33,13 +33,13 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Pet updatePet(Pet pet) {
-    petMapper.update(pet);
-    return pet;
+        petMapper.update(pet);
+        return pet;
     }
 
     @Override
-    public void deletePet(Pet pet) {
-        petMapper.deleteById(pet.getPetId());
+    public void deletePet(int petId) {
+        petMapper.delete(petId);
     }
 
     @Override

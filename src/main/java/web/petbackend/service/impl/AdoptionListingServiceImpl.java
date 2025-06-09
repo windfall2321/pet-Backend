@@ -67,5 +67,10 @@ public class AdoptionListingServiceImpl implements AdoptionListingService {
         return dto;
     }
 
+    @Override
+    public List<AdoptionListing> searchByPetName(String petName) {
+        return adoptionListingMapper.searchByPetName(petName);
+    }
+
 }
 
