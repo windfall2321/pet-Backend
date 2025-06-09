@@ -11,6 +11,7 @@
         <result column="status" property="status"/>
         <result column="listed_at" property="listedAt"/>
         <result column="adopted_at" property="adoptedAt"/>
+        <result column="image" property="image"/>
     </resultMap>
 
     <!-- Insert new AdoptionListing -->
