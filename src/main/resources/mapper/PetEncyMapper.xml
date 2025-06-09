@@ -69,4 +69,29 @@
         SELECT COUNT(*) FROM pet_encyclopedia
     </select>
 
+    <select id="getPetEncyByPageWithFilters" resultMap="petEncyResultMap">
+        SELECT * FROM pet_encyclopedia
+        <where>
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+            <if test="bodilyForm != null and bodilyForm != ''">
+                AND bodily_form = #{bodilyForm}
+            </if>
+        </where>
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="countItemsWithFilters" resultType="long">
+        SELECT COUNT(*) FROM pet_encyclopedia
+        <where>
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+            <if test="bodilyForm != null and bodilyForm != ''">
+                AND bodily_form = #{bodilyForm}
+            </if>
+        </where>
+    </select>
+
 </mapper>

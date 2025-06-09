@@ -49,8 +49,14 @@ public class PetEncyController {
     @GetMapping("/page")
     public ApiResponse<PageResult<PetEncyclopedia>> getAllItems(
             @RequestParam(defaultValue = "1") int pageNum,
-            @RequestParam(defaultValue = "10") int pageSize) {
-        PageResult<PetEncyclopedia> result = petEncyService.getPetEncyByPage(pageNum, pageSize);
-        return ApiResponse.success("返回分页宠物百科数据",result);
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String bodily_form) {
+
+        PageResult<PetEncyclopedia> result = petEncyService.getPetEncyByPageWithFilters(pageNum, pageSize, category, bodily_form);
+        return ApiResponse.success("返回分页宠物百科数据", result);
     }
+
+
+
 }
