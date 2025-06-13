@@ -93,6 +93,12 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+        // 修改的密码也加密
+        if (user.getPassword() != null ) {
+            // 加密密码
+            user.setPassword(DigestUtils.md5Hex(user.getPassword()));
+        }
+
         // 更新用户信息
         userMapper.updateUserInfo(userId, user);
         
