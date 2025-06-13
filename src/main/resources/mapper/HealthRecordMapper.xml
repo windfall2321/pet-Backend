@@ -21,12 +21,20 @@
 
     <update id="update" parameterType="web.petbackend.entity.HealthRecord">
         UPDATE health_record
-        SET pet_id = #{petId},
-            type = #{type},
-            description = #{description},
-            record_date = #{recordDate}
+        <set>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="recordDate != null">
+                record_date = #{recordDate},
+            </if>
+        </set>
         WHERE record_id = #{recordId}
     </update>
+
 
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * FROM health_record WHERE record_id = #{recordId}
