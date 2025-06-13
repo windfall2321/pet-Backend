@@ -61,7 +61,8 @@ public class AdoptionListingServiceImpl implements AdoptionListingService {
             dto.setPetBreed(pet.getBreed());
             dto.setPetGender(pet.getGender());
             dto.setPetCity(pet.getCity());
-            dto.setPetImage(pet.getImage());
+            // 使用领养信息中的图片，如果没有则使用宠物的图片
+            dto.setPetImage(listing.getImage() != null ? listing.getImage() : pet.getImage());
         }
 
         return dto;
