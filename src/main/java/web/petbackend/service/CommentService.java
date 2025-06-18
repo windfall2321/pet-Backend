@@ -10,6 +10,9 @@ public interface CommentService {
     Comment getCommentById(Integer id);
     List<Comment> getCommentsByTopicId(Integer topicId);
     void addComment(Comment comment);
+
+    void addminiComment(Comment comment);
+
     void updateComment(Comment comment);
     void deleteComment(Integer id);
     List<Comment> getAllCommentsByUserId(Integer UserId);

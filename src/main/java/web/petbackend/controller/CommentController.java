@@ -43,6 +43,12 @@ public class CommentController {
         return ApiResponse.success("添加评论成功", "评论已成功添加");
     }
 
+    @PostMapping("/addmini")
+    public ApiResponse<Comment> addminiComment(@RequestBody Comment comment) {
+        commentService.addminiComment(comment);
+        return ApiResponse.success("添加评论成功",comment);
+    }
+
     @PutMapping("/update")
     public ApiResponse<String> updateComment(@RequestBody Comment comment) {
         commentService.updateComment(comment);
