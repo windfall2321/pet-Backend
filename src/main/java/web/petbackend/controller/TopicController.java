@@ -45,6 +45,13 @@ public class TopicController {
         return ApiResponse.success("添加成功", "话题已成功添加");
     }
 
+    @PostMapping("/addmini")
+    public ApiResponse<Topic> addminiTopic(@RequestBody Topic topic) {
+        topicService.addminiTopic(topic);
+        return ApiResponse.success("添加成功",topic);
+    }
+
+
     @PutMapping("/update")
     public ApiResponse<String> updateTopic(@RequestBody Topic topic) {
         topicService.updateTopic(topic);

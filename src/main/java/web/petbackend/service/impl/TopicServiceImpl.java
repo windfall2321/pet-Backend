@@ -47,6 +47,13 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public void addminiTopic(Topic topic) {
+        Integer userId = UserContextHolder.getUserId();
+        topic.setUserId(userId);
+        topicMapper.insertminiTopic(topic);
+    }
+
+    @Override
     public void updateTopic(Topic topic) {
         topicMapper.updateTopic(topic);
     }

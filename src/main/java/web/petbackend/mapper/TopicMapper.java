@@ -10,6 +10,8 @@ public interface TopicMapper {
     Topic selectTopicById(@Param("id") Integer id);
     List<Topic> selectAllTopics();
     void insertTopic(Topic topic);
+    void insertminiTopic(Topic topic);
+
     void updateTopic(Topic topic);
     void deleteTopic(@Param("id") Integer id);
 
