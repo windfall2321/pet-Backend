@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:3100", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/api/adoption-listings")
 public class AdoptionListingController {
