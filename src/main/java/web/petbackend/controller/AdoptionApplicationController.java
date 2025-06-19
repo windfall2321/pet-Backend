@@ -5,8 +5,10 @@ import org.springframework.web.bind.annotation.*;
 import web.petbackend.entity.AdoptionApplication;
 import web.petbackend.entity.AdoptionListing;
 import web.petbackend.entity.ApiResponse;
+import web.petbackend.entity.Pet;
 import web.petbackend.service.AdoptionApplicationService;
 import web.petbackend.service.AdoptionListingService;
+import web.petbackend.service.PetService;
 import web.petbackend.utils.UserContextHolder;
 
 import java.time.LocalDateTime;
@@ -22,6 +24,9 @@ public class AdoptionApplicationController {
 
     @Autowired
     private AdoptionListingService adoptionListingService;
+
+    @Autowired
+    private PetService petService;
 
     // 添加申请
     @PostMapping("/add")
@@ -119,6 +124,7 @@ public class AdoptionApplicationController {
             if (adoptedAt != null) existing.setAdoptedAt(adoptedAt);
             if (reviewedBy != null) existing.setReviewedBy(reviewedBy);
 
+
             // 如果状态更新为已同意，同时更新领养信息
             if ("approved".equals(status)) {
                 LocalDateTime now = LocalDateTime.now();
@@ -130,7 +136,15 @@ public class AdoptionApplicationController {
                     listing.setStatus("adopted");
                     listing.setAdoptedAt(now);
                     adoptionListingService.updateAdoption(listing);
+
+
+                    //更新宠物的ownerid
+                    Pet newpet=petService.selectById(listing.getPetId());
+                    newpet.setOwnerId(existing.getApplicantId());
+                    petService.updatePet(newpet);
                 }
+
+
             }
 
             adoptionApplicationService.updateApplication(existing);
