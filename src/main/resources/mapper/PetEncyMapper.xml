@@ -34,9 +34,9 @@
     </select>
 
     <!-- 增加一条宠物百科数据 -->
-    <insert id="addPetEncy" parameterType="web.petbackend.entity.PetEncyclopedia" useGeneratedKeys="true" keyProperty="petEncyId">
+    <insert id="addPetEncy" parameterType="web.petbackend.entity.PetEncyclopedia" useGeneratedKeys="true" keyProperty="pet_ency_id">
         INSERT INTO pet_encyclopedia (variety_name, category, bodily_form, height, weight, lifetime, feature_tail, feature_ear, feature_eye, coat_color, coat_length, introduction, feeding_matters, image)
-        VALUES (#{varietyName}, #{category}, #{bodilyForm}, #{height}, #{weight}, #{lifetime}, #{featureTail}, #{featureEar}, #{featureEye}, #{coatColor}, #{coatLength}, #{introduction}, #{feedingMatters}, #{image})
+        VALUES (#{variety_name}, #{category}, #{bodily_form}, #{height}, #{weight}, #{lifetime}, #{feature_tail}, #{feature_ear}, #{feature_eye}, #{coat_color}, #{coat_length}, #{introduction}, #{feeding_matters}, #{image})
     </insert>
 
     <!-- 删除一条宠物百科数据 -->
@@ -47,21 +47,21 @@
     <!-- 更新一条宠物百科数据 -->
     <update id="updatePetEncy" parameterType="web.petbackend.entity.PetEncyclopedia">
         UPDATE pet_encyclopedia
-        SET variety_name = #{varietyName},
+        SET variety_name = #{variety_name},
             category = #{category},
-            bodily_form = #{bodilyForm},
+            bodily_form = #{bodily_form},
             height = #{height},
             weight = #{weight},
             lifetime = #{lifetime},
-            feature_tail = #{featureTail},
-            feature_ear = #{featureEar},
-            feature_eye = #{featureEye},
-            coat_color = #{coatColor},
-            coat_length = #{coatLength},
+            feature_tail = #{feature_tail},
+            feature_ear = #{feature_ear},
+            feature_eye = #{feature_eye},
+            coat_color = #{coat_color},
+            coat_length = #{coat_length},
             introduction = #{introduction},
-            feeding_matters = #{feedingMatters},
+            feeding_matters = #{feeding_matters},
             image = #{image}
-        WHERE pet_ency_id = #{petEncyId}
+        WHERE pet_ency_id = #{pet_ency_id}
     </update>
 
     <!-- 查询总条数 -->
