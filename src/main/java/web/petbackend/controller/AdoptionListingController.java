@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import web.petbackend.dto.AdoptionListingDTO;
 import web.petbackend.entity.AdoptionListing;
 import web.petbackend.entity.ApiResponse;
+import web.petbackend.entity.Pet;
 import web.petbackend.service.AdoptionListingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,10 @@ public class AdoptionListingController {
             listing.setDescription(Objects.requireNonNullElse(description, "无"));
             listing.setStatus("available");
             listing.setListedAt(LocalDateTime.now());
-            if (image != null) listing.setImage(image);
+            if (image != null) {
+                listing.setImage(image);
+
+            }
 
             adoptionListingService.addAdoption(listing);
             return ApiResponse.success("发布成功", listing);
