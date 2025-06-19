@@ -31,6 +31,12 @@
         VALUES (#{title}, #{userId}, #{content}, #{tags}, #{timestamp})
     </insert>
 
+    <insert id="insertminiTopic" parameterType="web.petbackend.entity.Topic"
+            useGeneratedKeys="true" keyProperty="topicId">
+        INSERT INTO topic (title, user_id, content, tags, timestamp)
+        VALUES (#{title}, #{userId}, #{content}, #{tags}, #{timestamp})
+    </insert>
+
     <update id="updateTopic">
         UPDATE topic
         SET title = #{title},

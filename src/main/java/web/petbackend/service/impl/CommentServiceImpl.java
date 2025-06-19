@@ -38,6 +38,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public void addminiComment(Comment comment) {
+        Integer userId = UserContextHolder.getUserId();
+        comment.setUserId(userId);
+        commentMapper.insertminiComment(comment);
+    }
+
+    @Override
     public List<Comment> getAllCommentsByUserId(Integer UserId) {
         return commentMapper.selectByUserId(UserId);
     }

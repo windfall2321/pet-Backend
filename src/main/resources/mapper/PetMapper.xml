@@ -19,14 +19,29 @@
 
     <update id="update" parameterType="web.petbackend.entity.Pet">
         UPDATE pet
-        SET name = #{name},
-            owner_id = #{ownerId},
-            breed = #{breed},
-            gender = #{gender},
-            city = #{city},
-            image=#{image}
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="ownerId != null">
+                owner_id = #{ownerId},
+            </if>
+            <if test="breed != null and breed != ''">
+                breed = #{breed},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+        </set>
         WHERE pet_id = #{petId}
     </update>
+
 
     <select id="selectById" resultMap="BaseResultMap">
         SELECT * FROM pet WHERE pet_id = #{petId}
